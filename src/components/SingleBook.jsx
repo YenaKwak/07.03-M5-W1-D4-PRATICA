@@ -14,7 +14,7 @@ const SingleBook = ({ book }) => {
       <Card
         onClick={toggleSelected}
         className="text-center"
-        style={{ width: '18rem', cursor: 'pointer', border: selected ? '2px solid red' : 'none' }}
+        style={{ width: '18rem', height:'100%', cursor: 'pointer', border: selected ? '2px solid red' : 'none' }}
       >
         <div className="card-img-container">
           <Card.Img src={book.img} className="book-img" alt={book.title} />

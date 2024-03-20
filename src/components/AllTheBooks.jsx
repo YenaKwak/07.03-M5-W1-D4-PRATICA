@@ -3,9 +3,8 @@ import SingleBook from './SingleBook';
 
 
 
-const AllTheBooks = () => {
+const AllTheBooks = ({searchQuery}) => {
     const [books, setBooks] = useState([]); // 책데이터를 저장하기위해..
-    const [searchText, setSearchText] = useState(''); //검색창에 입력된 텍스트를 저장
 
 
     useEffect(() => {
@@ -18,29 +17,18 @@ const AllTheBooks = () => {
 
 
     return (
-        <div>
-        <div className="container">
-            <div className="row justify-content-center my-4">
-                <div className="col-md-6">
-                    <input
-                        type="text"
-                        className="form-control"
-                        value={searchText}
-                        onChange={e => setSearchText(e.target.value)}
-                        placeholder="Search by title..."
-                    />
-                </div>
-            </div>
-        </div>
-
-        <div className="d-flex flex-wrap justify-content-center">
+        <>
+        <div className="container-fluid">
+            <div className="d-flex justify-content-center my-4 flex-wrap">
             {books
-                .filter(book => book.title.toLowerCase().includes(searchText.toLowerCase()))
+                .filter(book => book.title.toLowerCase().includes(searchQuery.toLowerCase()))
                 .map((book, index) => (
                     <SingleBook key={index} book={book} />
                 ))}
+            </div>
         </div>
-    </div>
+
+    </>
     );
 };
 
@@ -65,3 +53,15 @@ export default AllTheBooks;
         //             </div>
         //             </div>
         //         </div>
+
+
+
+// const AllTheBooks = ({searchQuery}) => {
+//     const [books, setBooks] = useState([]); // 책
+
+//     useEffect(() => {
+//         fetch('/books/fantasy.json')
+//         .then(response => response.json())
+//         .then(data => setBooks(data))
+//         .catch(error => console.log(error));
+//     }, []); /
