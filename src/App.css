@@ -1,12 +1,11 @@
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-
-div.card{
-  height:40em;
+div.card {
+  height: 30em;
   width: 100%;
 }
 
@@ -15,6 +14,6 @@ div.card{
   object-fit: cover;
 }
 
-.card-img-container{
-height: 27em;
+.card-img-container {
+  height: 24em;
 }
