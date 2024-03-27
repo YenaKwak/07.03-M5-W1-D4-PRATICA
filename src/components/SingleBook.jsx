@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Card } from "react-bootstrap";
+import { Card, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const SingleBook = ({ book, setSelectedAsin, isSelected }) => {
   return (
@@ -22,8 +23,11 @@ const SingleBook = ({ book, setSelectedAsin, isSelected }) => {
             alt={book.title}
           />
         </div>
-        <Card.Body className="pt-4">
+        <Card.Body className="pt-4 card-body">
           <Card.Title>{book.title}</Card.Title>
+          <Link to={`/book/${book.asin}`}>
+            <Button variant="primary">Detail</Button>
+          </Link>
           <Card.Text>Category: {book.category}</Card.Text>
           <Card.Text>Price: ${book.price}</Card.Text>
         </Card.Body>

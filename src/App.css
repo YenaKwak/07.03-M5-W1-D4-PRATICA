@@ -4,16 +4,19 @@
   box-sizing: border-box;
 }
 
-div.card {
-  height: 30em;
-  width: 100%;
-}
-
 .book-img {
   height: 100%;
   object-fit: cover;
 }
 
 .card-img-container {
-  height: 24em;
+  height: 20em;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  height: 20em;
 }

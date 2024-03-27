@@ -1,18 +1,17 @@
-import React from 'react'
-import Alert from 'react-bootstrap/Alert';
+import React from "react";
+import Alert from "react-bootstrap/Alert";
 
 const Welcome = () => {
-    return (
-      <div className="container">
-        <div className="mx-5 my-5 text-center">
+  return (
+    <div className="container">
+      <div className="mx-5 my-5 text-center">
         <h4>All the books.</h4>
         <Alert key="primary" variant="primary">
-        un Alert???????
+          WELCOME! 어서오세요!
         </Alert>
       </div>
-      </div>
-    );
-  }
+    </div>
+  );
+};
 
-
-  export default Welcome;
+export default Welcome;
