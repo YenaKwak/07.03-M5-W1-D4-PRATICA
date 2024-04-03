@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 import CommentList from "./CommentList";
 import AddComment from "./AddComment";
+import Loading from "./Loading";
+import Error from "./Error";
 
 const CommentArea = ({ asin }) => {
   const [comments, setComments] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchComments = async () => {
       if (!asin) {
-        // Added this check to avoid fetch if asin is null
         setIsLoading(false);
         return;
       }
@@ -26,13 +27,21 @@ const CommentArea = ({ asin }) => {
             },
           }
         );
-        if (!response.ok) throw new Error("Failed to fetch comments");
-        const data = await response.json();
-        setComments(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
+        console.log(response);
+        if (response.ok) {
+          let comments = await response.json();
+          setComments(comments);
+          setIsLoading(false);
+          setError(false);
+        } else {
+          console.log("error");
+          setIsLoading(false);
+          setError(true);
+        }
+      } catch (error) {
+        console.log(error);
         setIsLoading(false);
+        setError(true);
       }
     };
 
@@ -45,9 +54,9 @@ const CommentArea = ({ asin }) => {
 
   return (
     <div>
-      {isLoading && <div>Loading</div>}
-      {error && <div>Error: {error}</div>}
-      <CommentList comments={comments} />
+      {isLoading && <Loading />}
+      {error && <Error />}
+      <CommentList comments={comments} setComments={setComments} />
       <AddComment asin={asin} onCommentAdded={handleCommentAdded} />
     </div>
   );

@@ -1,12 +1,26 @@
-import React from 'react'
-import SingleComment from './SingleComment'
+import React from "react";
+import { ListGroup } from "react-bootstrap";
+import SingleComment from "./SingleComment";
 
-export default function CommentList({comments}) {
+const CommentList = ({ comments, setComments }) => {
+  const removeCommentFromList = (commentId) => {
+    const updatedComments = comments.filter(
+      (comment) => comment._id !== commentId
+    );
+    setComments(updatedComments);
+  };
+
   return (
-    <ul>
-      {comments.map((comment, index) => (
-        <SingleComment key={index} comment={comment} />
+    <ListGroup>
+      {comments.map((comment) => (
+        <SingleComment
+          key={comment._id}
+          comment={comment}
+          removeComment={removeCommentFromList}
+        />
       ))}
-    </ul>
+    </ListGroup>
   );
 };
+
+export default CommentList;

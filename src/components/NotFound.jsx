@@ -1,9 +1,14 @@
-import React from "react";
+import { Col, Row } from "react-bootstrap";
 
-export default function NotFound() {
-  return (
-    <h2 className="text-center my-5 fw-bold">
-      NotFound 페이지를 찾을 수 없습니다.
-    </h2>
-  );
-}
+const NotFound = () => (
+  <Row className="justify-content-center my-4">
+    <Col xs={12} md={6}>
+      <div className="text-center">
+        <h1>404</h1>
+        <h2>Page not found.</h2>
+      </div>
+    </Col>
+  </Row>
+);
+
+export default NotFound;
