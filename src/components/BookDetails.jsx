@@ -1,30 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import booksData from "../data/fantasy.json";
 
 export default function BookDetails() {
   const { asin } = useParams();
   const [book, setBook] = useState(null);
 
   useEffect(() => {
-    const fetchBookDetails = async () => {
-      try {
-        const response = await fetch("/books/fantasy.json");
-        const books = await response.json();
-        const foundBook = books.find((book) => book.asin === asin);
-        setBook(foundBook);
-      } catch (error) {
-        console.error(
-          "Failed to fetch book details. 책 디테일을 불러오지 못함",
-          error
-        );
-      }
-    };
-
-    fetchBookDetails();
+    const foundBook = booksData.find((b) => b.asin === asin);
+    setBook(foundBook);
   }, [asin]);
 
   if (!book) {
-    return <h4>Loading book details!</h4>;
+    return <h4>Loading book details...</h4>;
   }
 
   return (

@@ -33,7 +33,7 @@ const SingleComment = ({ comment, removeComment }) => {
         <strong>rate:</strong> {comment.rate}
       </div>
       <Button variant="danger" onClick={() => deleteComment(comment._id)}>
-        delete
+        X
       </Button>
     </ListGroup.Item>
   );

@@ -1,15 +1,9 @@
 import React, { useState, useEffect } from "react";
 import SingleBook from "./SingleBook";
+import booksData from "../data/fantasy.json";
 
 const AllTheBooks = ({ searchQuery, setSelectedAsin, selectedAsin }) => {
-  const [books, setBooks] = useState([]); // 책데이터를 저장하기위해..
-
-  useEffect(() => {
-    fetch("/books/fantasy.json")
-      .then((response) => response.json())
-      .then((data) => setBooks(data))
-      .catch((error) => console.log(error));
-  }, []); // 딱 한번만 렌더링되게..
+  const [books, setBooks] = useState(booksData);
 
   return (
     <>
