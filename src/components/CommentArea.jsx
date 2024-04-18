@@ -23,23 +23,20 @@ const CommentArea = ({ asin }) => {
           {
             headers: {
               Authorization:
-                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQ0YTJjZjljNDM3MDAwMTkzYzM1YzkiLCJpYXQiOjE3MTA3MTI2MTUsImV4cCI6MTcxMTkyMjIxNX0.KxMqpzMDhZ0iqUXLOyzujrO8UWGdIFzprpskaKctnbA",
+                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQ0YTJjZjljNDM3MDAwMTkzYzM1YzkiLCJpYXQiOjE3MTM0Mzg5NDMsImV4cCI6MTcxNDY0ODU0M30.RMpTPfKT_526d8XK7g8WWozEsL7o0XM8QvJxqKGDttw",
             },
           }
         );
-        console.log(response);
         if (response.ok) {
-          let comments = await response.json();
-          setComments(comments);
+          const data = await response.json();
+          setComments(data);
           setIsLoading(false);
           setError(false);
         } else {
-          console.log("error");
           setIsLoading(false);
           setError(true);
         }
       } catch (error) {
-        console.log(error);
         setIsLoading(false);
         setError(true);
       }
@@ -52,12 +49,44 @@ const CommentArea = ({ asin }) => {
     setComments([...comments, newComment]);
   };
 
+  const editComment = async (commentId, updatedComment) => {
+    try {
+      const response = await fetch(
+        `https://striveschool-api.herokuapp.com/api/comments/${commentId}`,
+        {
+          method: "PUT",
+          body: JSON.stringify(updatedComment),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQ0YTJjZjljNDM3MDAwMTkzYzM1YzkiLCJpYXQiOjE3MTM0Mzg5NDMsImV4cCI6MTcxNDY0ODU0M30.RMpTPfKT_526d8XK7g8WWozEsL7o0XM8QvJxqKGDttw",
+          },
+        }
+      );
+      if (response.ok) {
+        const updatedData = await response.json();
+        const newComments = comments.map((comment) =>
+          comment._id === commentId ? updatedData : comment
+        );
+        setComments(newComments);
+      } else {
+        throw new Error("Failed to edit comment");
+      }
+    } catch (error) {
+      console.error("Error editing comment", error);
+    }
+  };
+
   return (
     <div>
       {isLoading && <Loading />}
       {error && <Error />}
-      <CommentList comments={comments} setComments={setComments} />
-      <AddComment asin={asin} onCommentAdded={handleCommentAdded} />
+      <CommentList
+        comments={comments}
+        setComments={setComments}
+        editComment={editComment}
+      />
+      {asin && <AddComment asin={asin} onCommentAdded={handleCommentAdded} />}
     </div>
   );
 };

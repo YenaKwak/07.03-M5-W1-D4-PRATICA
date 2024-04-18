@@ -20,7 +20,7 @@ export default function AddComment({ asin, onCommentAdded }) {
           headers: {
             "Content-Type": "application/json",
             Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQ0YTJjZjljNDM3MDAwMTkzYzM1YzkiLCJpYXQiOjE3MTIwNzkxNzMsImV4cCI6MTcxMzI4ODc3M30.hays_4CvoKZmBVdKLeOX4hQWxA6NwlAyXNcOSNQBqYo",
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQ0YTJjZjljNDM3MDAwMTkzYzM1YzkiLCJpYXQiOjE3MTM0Mzg5NDMsImV4cCI6MTcxNDY0ODU0M30.RMpTPfKT_526d8XK7g8WWozEsL7o0XM8QvJxqKGDttw",
           },
         }
       );

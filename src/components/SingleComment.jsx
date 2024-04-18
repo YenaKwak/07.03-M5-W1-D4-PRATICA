@@ -1,47 +1,85 @@
-import React from "react";
-import { Button, ListGroup } from "react-bootstrap";
+import React, { useState } from "react";
+import { Button, ListGroup, Form } from "react-bootstrap";
 
-const SingleComment = ({ comment, removeComment }) => {
+const SingleComment = ({ comment, removeComment, editComment }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedComment, setEditedComment] = useState(comment.comment);
+
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
+
+  const handleSave = async () => {
+    const updatedComment = {
+      ...comment,
+      comment: editedComment,
+    };
+    await editComment(comment._id, updatedComment);
+    setIsEditing(false);
+  };
+
   const deleteComment = async (commentId) => {
     const isConfirmed = window.confirm(
       "Are you sure you want to delete this comment?"
     );
+    if (!isConfirmed) return;
 
-    if (isConfirmed) {
-      try {
-        let response = await fetch(
-          `https://striveschool-api.herokuapp.com/api/comments/${commentId}`,
-          {
-            method: "DELETE",
-            headers: {
-              Authorization:
-                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQ0YTJjZjljNDM3MDAwMTkzYzM1YzkiLCJpYXQiOjE3MTIwNzkxNzMsImV4cCI6MTcxMzI4ODc3M30.hays_4CvoKZmBVdKLeOX4hQWxA6NwlAyXNcOSNQBqYo",
-            },
-          }
-        );
-        if (response.ok) {
-          alert("Comment has been deleted!");
-          removeComment(commentId);
-        } else {
-          throw new Error("There was an error deleting comment.");
+    try {
+      const response = await fetch(
+        `https://striveschool-api.herokuapp.com/api/comments/${commentId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQ0YTJjZjljNDM3MDAwMTkzYzM1YzkiLCJpYXQiOjE3MTM0NDAwMzYsImV4cCI6MTcxNDY0OTYzNn0.5sS13zTSNSBq8keYmzeGkv4lcEpwxt2zYWjAVVfNWms",
+          },
         }
-      } catch (error) {
-        alert(error.message);
+      );
+
+      if (!response.ok) {
+        const errorData = await response.text(); // 서버로부터 오류 내용을 받아옴
+        throw new Error(errorData || "Failed to delete the comment.");
       }
+
+      alert("Comment has been deleted!");
+      removeComment(commentId);
+    } catch (error) {
+      console.error("Error deleting comment: ", error);
+      alert("Error deleting comment: " + error.message);
     }
   };
 
   return (
     <ListGroup.Item className="d-flex justify-content-between align-items-center">
+      {isEditing ? (
+        <Form.Control
+          as="textarea"
+          value={editedComment}
+          onChange={(e) => setEditedComment(e.target.value)}
+        />
+      ) : (
+        <div>
+          {comment.comment}
+          <br />
+          <strong>rate:</strong> {comment.rate}
+        </div>
+      )}
       <div>
-        {comment.comment}
-        <br />
-        <strong>rate:</strong> {comment.rate}
+        {isEditing ? (
+          <Button variant="success" onClick={handleSave}>
+            Save
+          </Button>
+        ) : (
+          <Button variant="secondary" onClick={handleEdit}>
+            Edit
+          </Button>
+        )}
+        <Button variant="danger" onClick={() => deleteComment(comment._id)}>
+          Delete
+        </Button>
       </div>
-      <Button variant="danger" onClick={() => deleteComment(comment._id)}>
-        X
-      </Button>
     </ListGroup.Item>
   );
 };
+
 export default SingleComment;
